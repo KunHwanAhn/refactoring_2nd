@@ -5,9 +5,14 @@
   "repository": "git@github.com:KunHwanAhn/refactoring_2nd.git",
   "author": "Conan Kunhwan Ahn <kunhwon@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "prepare": "husky install"
+  },
   "devDependencies": {
     "eslint": "^7.31.0",
     "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-plugin-import": "^2.23.4"
+    "eslint-plugin-import": "^2.23.4",
+    "husky": "^7.0.1",
+    "lint-staged": "^11.0.1"
   }
 }
