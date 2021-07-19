@@ -1,5 +1,5 @@
 # refactoring_2nd
-[Refactoring 2판](http://www.yes24.com/Product/Goods/89649360) 관련 학습 저장소
+[Refactoring 2판](https://www.hanbit.co.kr/store/books/look.php?p_code=B6952616555) 관련 학습 저장소
 
 ## 리팩터링 2판
 - [깃허브 저장소](https://github.com/WegraLee/Refactoring)
