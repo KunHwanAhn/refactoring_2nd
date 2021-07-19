@@ -1,9 +1,8 @@
 # refactoring_2nd
-Refactoring 2판 관련 학습 저장소
-- http://www.yes24.com/Product/Goods/89649360
+[Refactoring 2판](http://www.yes24.com/Product/Goods/89649360) 관련 학습 저장소
 
 ## 리팩터링 2판
-- https://github.com/WegraLee/Refactoring
+- [깃허브 저장소](https://github.com/WegraLee/Refactoring)
 - [정오표](https://docs.google.com/document/d/1IP04YcBgwOfBexV1CPK3gLCr2gmQdPTas2pHcqPuCz4/edit)
 
 ## 참조 문서
