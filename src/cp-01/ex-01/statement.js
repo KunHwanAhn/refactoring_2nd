@@ -1,3 +1,25 @@
+function renderPlainText(data) {
+  function usd(aNumber) {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2,
+    }).format(aNumber / 100);
+  }
+
+  let result = `청구 내역 (고객명: ${data.customer})\n`;
+
+  // eslint-disable-next-line no-restricted-syntax
+  for (const perf of data.performances) {
+    // 청구 내역을 출력한다.
+    result += `  ${perf.play.name}: ${usd(perf.amount)} (${perf.audience}석)\n`;
+  }
+  result += `총액 ${usd(data.totalAmount)}\n`;
+  result += `적립 포인트: ${data.totalVolumeCredits}점\n`;
+
+  return result;
+}
+
 function statement(invoice, plays) {
   function playFor(aPerformance) {
     return plays[aPerformance.playId];
@@ -6,7 +28,7 @@ function statement(invoice, plays) {
   function amountFor(aPerformance) {
     let result = 0;
 
-    switch (playFor(aPerformance).type) {
+    switch (aPerformance.play.type) {
       case 'tragedy': // 비극
         result = 40000;
 
@@ -28,7 +50,7 @@ function statement(invoice, plays) {
         break;
 
       default:
-        throw new Error(`알 수 없는 장르: ${playFor(aPerformance).type}`);
+        throw new Error(`알 수 없는 장르: ${aPerformance.play.type}`);
     }
 
     return result;
@@ -40,60 +62,38 @@ function statement(invoice, plays) {
     // 포인트를 적립한다.
     result += Math.max(aPerformance.audience - 30, 0);
     // 희극 관객 5명마다 추가 포인트를 제공한다.
-    if (playFor(aPerformance).type === 'comedy') {
+    if (aPerformance.play.type === 'comedy') {
       result += Math.floor(aPerformance.audience / 5);
     }
 
     return result;
   }
 
-  function usd(aNumber) {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 2,
-    }).format(aNumber / 100);
+  function totalVolumeCredits(data) {
+    return data.performances.reduce((total, p) => total + p.volumeCredits, 0);
   }
 
-  function totalVolumeCredits() {
-    let result = 0;
-    // eslint-disable-next-line no-restricted-syntax
-    for (const perf of invoice.performances) {
-    // 포인트를 적립한다.
-      result += volumeCreditsFor(perf);
-    }
+  function totalAmount(data) {
+    return data.performances.reduce((total, p) => total + p.amount, 0);
+  }
+
+  function enrichPerformance(aPerformance) {
+    // TODO: AirBnb ESLint 적용하니, Object.assign()을 스프레드 연산자로 바꿈, 원본은 Object.assign
+    const result = { ...aPerformance };
+    result.play = playFor(result);
+    result.amount = amountFor(result);
+    result.volumeCredits = volumeCreditsFor(result);
 
     return result;
   }
 
-  function totalAmount() {
-    let result = 0;
+  const statementData = {};
+  statementData.customer = invoice.customer;
+  statementData.performances = invoice.performances.map(enrichPerformance);
+  statementData.totalAmount = totalAmount(statementData);
+  statementData.totalVolumeCredits = totalVolumeCredits(statementData);
 
-    // eslint-disable-next-line no-restricted-syntax
-    for (const perf of invoice.performances) {
-    // const play = playFor(perf); // TODO: 여기서 변수 인라인 하는데... 적절한가?
-    // const thisAmount = amountFor(perf);  // TODO: 여기서도 계산 하는 값을 재사용 안하고, 매번 계산하는 방향으로 변경함.
-      result += amountFor(perf);
-    }
-
-    return result;
-  }
-
-  let result = `청구 내역 (고객명: ${invoice.customer})\n`;
-
-  // eslint-disable-next-line no-restricted-syntax
-  for (const perf of invoice.performances) {
-    // const play = playFor(perf); // TODO: 여기서 변수 인라인 하는데... 적절한가?
-    // const thisAmount = amountFor(perf);  // TODO: 여기서도 계산 하는 값을 재사용 안하고, 매번 계산하는 방향으로 변경함.
-
-    // 청구 내역을 출력한다.
-    result += `  ${playFor(perf).name}: ${usd(amountFor(perf))} (${perf.audience}석)\n`;
-  }
-  result += `총액 ${usd(totalAmount())}\n`;
-  // TODO: 반복문 쪼개기 & 함수 추출하기로 분리했는데, 반복문을 쪼갰지만 시간 복잡도는 여전히 O(N)이라서 성능적으로는 문제 없어보이나 어색..
-  result += `적립 포인트: ${totalVolumeCredits()}점\n`;
-
-  return result;
+  return renderPlainText(statementData);
 }
 
 module.exports = statement;
