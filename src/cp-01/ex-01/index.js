@@ -1,7 +1,6 @@
 const { statement, htmlStatement } = require('./statement');
 
-const invoices = require('./invoices.json');
-const plays = require('./plays.json');
+const { invoices, plays } = require('./data');
 
 (() => {
   console.log(statement(invoices[0], plays));
