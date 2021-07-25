@@ -34,7 +34,7 @@ function htmlStatement(invoice, plays) {
 
     // eslint-disable-next-line no-restricted-syntax
     for (const perf of data.performances) {
-      result += `<tr><td>${perf.play.name}</td><td>${perf.play.audience}</td><td>${usd(perf.amount)}</td></tr>\n`;
+      result += `<tr><td>${perf.play.name}</td><td>${perf.audience}</td><td>${usd(perf.amount)}</td></tr>\n`;
     }
 
     result += '</table>\n';
