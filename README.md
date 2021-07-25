@@ -11,4 +11,4 @@
 
 ## 목차
 1. [챕터1](./src/cp-01)
-   - 관련 PR - 챕터1 예제 코드 따라하기 (#2)
+   - 관련 PR - 챕터1 예제 코드 따라하기 ([#1](https://github.com/KunHwanAhn/refactoring_2nd/pull/1))
