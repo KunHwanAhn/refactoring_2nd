@@ -12,4 +12,16 @@ module.exports = {
   },
   rules: {
   },
+  overrides: [
+    {
+      files: [
+        '**/test?(s)/*.{j,t}s?(x)',
+      ],
+      env: {
+        jest: true,
+      },
+      plugins: ['jest'],
+      extends: ['plugin:jest/recommended'],
+    },
+  ],
 };
