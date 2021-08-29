@@ -18,3 +18,6 @@
 - 아주 간단한 코드에서는 함수 추출하기가 굉장히 쉽다.
 - [ex02.js](./01-extractFunction/ex02.js)
 
+### 지역 변수를 사용할 때
+- 지역 변수들을 매개변수로 넘기면 된다.
+- [ex03.js](./01-extractFunction/ex03.js)
