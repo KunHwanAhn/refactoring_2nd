@@ -8,5 +8,9 @@ let defaultOwnerData = {
   lastName: '파울러',
 };
 
-export function defaultOwner() { return defaultOwnerData; }
-export function setDefaultOwner(arg) { defaultOwnerData = arg; }
+function defaultOwner() { return defaultOwnerData; }
+function setDefaultOwner(arg) { defaultOwnerData = arg; }
+module.exports = {
+  defaultOwner,
+  setDefaultOwner,
+};
