@@ -14,7 +14,7 @@
 7. 테스트한다.
 8. 레코드의 필드도 데이터 구조인 중첩 구조라면 레코드 캡슐화하기와 컬렉션 캡슐화하기를 재귀적으로 적용한다.
 
-### 예시1 - 간단한 레코드 캡슐화하기
+### 예시 - 간단한 레코드 캡슐화하기
 
 ```diff
 - const organization = { name: '애크미 구스배리', country: 'GB' };
@@ -45,7 +45,7 @@
 5. 컬렉션 게터를 수정해서 원본 내용을 수정할 수 없는 읽기전용 프락시나 복제본을 반환하게 한다.
 6. 테스트한다.
 
-### 예시1
+### 예시
 ```diff
 class Person {
   constructor(name) {
@@ -83,7 +83,7 @@ class Person {
 6. 테스트한다.
 7. 함수 이름을 바꾸면 원본 접근자의 동작을 더 잘 드러낼 수 있는지 검토한다.
 
-### 예시1
+### 예시
 ```diff
 - orders.filter((o) => o.priority === 'high' || o.priority === 'rush');
 + orders.filter((o) => o.priority.higherThan(new Priority('normal')));
@@ -145,8 +145,7 @@ class Order {
 6. 양쪽 클래스의 인터페이스를 살펴보면서 불필요한 메서드를 제거하고, 이름도 새로운 환경에 맞게 바꾼다.
 7. 새 클래스를 외부로 노출할지 정한다. 노출하려거든 새 클래스에 `참조를 값으로 바꾸기`를 적용할지 고민해본다.
 
-### 예시1
-
+### 예시
 ```diff
 class Person {
 -   get officeAreaCode() { return this.officeAreaCode; }
@@ -175,7 +174,7 @@ class Person {
 3. 소스 클래스의 메서드와 필드를 모두 타깃 클래스로 옮긴다. 하나씩 옮길 때마다 테스트한다.
 4. 소스 클래스를 삭제하고 조의를 표한다.
 
-### 예시1
+### 예시
 ```diff
 class Person {
 -   get officeAreaCode() { return this.telephoneNumber.areaCode; }
@@ -190,4 +189,22 @@ class Person {
 -
 -   get number() { return this.number; }
 - }
+```
+
+## 7.7 위임 숨기기
+
+### 절차
+1. 위임 객체의 각 메서드에 해당하는 위임 메서드를 서버에 생성한다.
+2. 클라이언트가 위임 객체 대신 서버를 호출하도록 수정한다. 하나씩 바꿀 때마다 테스트한다.
+3. 모두 수정했다면, 서버로부터 위임 객체를 얻는 접근자를 제거한다.
+4. 테스트한다.
+
+### 예시
+```diff
+- manager = aPerson.department.manager;
++ manager = aPerson.manager;
++
++ class Person {
++   get manager() { return this.department.manager; }
++ }
 ```
