@@ -1,5 +1,5 @@
 # 챕터7. 캡슐화
--
+- 챕터7 코드 추가(PR [#13](https://github.com/KunHwanAhn/refactoring_2nd/pull/13))
 
 ## 7.1 레코드 캡슐화하기
 
@@ -167,3 +167,27 @@ class Person {
 + }
 ```
 
+## 7.6 클래스 인라인하기
+
+### 절차
+1. 소스 클래스의 각 public 메서드에 대응하는 메서드들을 타깃 클래스에 생성한다. 이 메서드들은 단순히 작업을 소스 클래스로 위임해야 한다.
+2. 소스 클래스의 메서드를 사용하는 코드를 모두 타깃 클래스의 위임 메서드를 사용하도록 바꾼다. 하나씩 바꿀 때마다 테스트한다.
+3. 소스 클래스의 메서드와 필드를 모두 타깃 클래스로 옮긴다. 하나씩 옮길 때마다 테스트한다.
+4. 소스 클래스를 삭제하고 조의를 표한다.
+
+### 예시1
+```diff
+class Person {
+-   get officeAreaCode() { return this.telephoneNumber.areaCode; }
++   get officeAreaCode() { return this.officeAreaCode; }
+
+-   get officeNubmer() { return this.telephoneNumber.nubmer; }
++   get officeNubmer() { return this.officeNubmer; }
+}
+
+- class TelephoneNumber {
+-   get areaCode() { return this.areaCode; }
+-
+-   get number() { return this.number; }
+- }
+```
