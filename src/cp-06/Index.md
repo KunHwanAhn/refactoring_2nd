@@ -1,5 +1,6 @@
 # 챕터6. 기본적인 리팩터링
 - 챕터6-1 ~ 6-5 코드 추가(PR [#9](https://github.com/KunHwanAhn/refactoring_2nd/pull/9))
+- 챕터6-6 ~ 6-11 코드 추가(PR [#11](https://github.com/KunHwanAhn/refactoring_2nd/pull/11))
 
 ## 6.1 함수 추출하기
 - `목적과 구현을 분리`하는 방식
